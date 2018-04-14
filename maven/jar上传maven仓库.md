@@ -170,3 +170,6 @@ $ gpg --keyserver hkp://keyserver.ubuntu.com:11371 --send-keys U18E4E479077F6AF3
 ```
   等个一段时间后可以进行搜索,大约等2个小时左右即可在http://search.maven.org/看到你发布的jar包
 ```
+
+# 具体构建maven仓库可参考文档
+[中央存储库文档](http://central.sonatype.org/pages/apache-maven.html#performing-a-release-deployment)
