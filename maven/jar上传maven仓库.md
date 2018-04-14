@@ -9,7 +9,7 @@
 # 配置maven
 
 1. ${MAVEN_HOME}/conf/setting.xml
-```
+```xml
 <servers>
  <server>
     <id>sonatype-nexus-snapshots</id>
@@ -24,7 +24,7 @@
 </servers>
 ```
 2. 项目中pom.xml
-```
+```xml
  <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
@@ -38,19 +38,42 @@
         </license>
     </licenses>
 
+    <!-- 项目管理 -->
     <scm>
         <url>https://github.com/name/project</url>
         <connection>https://github.com/name/project.git</connection>
         <developerConnection>https://github.com/name/project</developerConnection>
     </scm>
 
+    <!-- 开发者信息 -->
     <developers>
         <developer>
-            <name>chenmq</name>
-            <email>1写你的邮箱就行</email>
+            <name>developeName</name>
+            <email>写你的邮箱就行</email>
             <url>https://github.com/name/project</url>
         </developer>
     </developers>
+
+     <build>
+        <plugins>
+
+            <!--使用Maven Release Plugin执行发布部署-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <autoVersionSubmodules>false</autoVersionSubmodules>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
+            <!-- 设置当前版本 mvn versions:set -DnewVersion=1.0.0  -->
+        </plugins>
+    </build>
+
+    <!-- 我的pom.xml中<version>1.0.0</version>发行版本（不以-SNAPSHOT结尾） -->
 ```
 
 # 配置GPG 用来对上传的文件进行加密和签名，保证你的jar包不被篡改
@@ -140,7 +163,8 @@ $ gpg --keyserver hkp://keyserver.ubuntu.com:11371 --send-keys U18E4E479077F6AF3
 - 登陆[https://oss.sonatype.org](https://oss.sonatype.org)查看 (帐号密码为https://issues.sonatype.org的帐号密码)
 - 仓库中Staging Repositories菜单查看
 ```
-   进入之后会看到中间一个Table窗口，将滑动条移到最后，找到我们刚刚发布的Jar包，然后依次点击上方的Close–>Confirm，这将会弹出类似于下面的对话框，在其中输入我们Jar包的描述信息，这个信息将会在Maven搜索结果当作简介介绍我们Jar包的，所以建议输的详细点。 
+   进入之后会看到中间一个Table窗口，将滑动条移到最后，找到我们刚刚发布的Jar包，然后依次点击上方的Close–>Confirm，这将会弹出类似于下面的对话框，在其中输入我们Jar包的描述信息，
+   如果失败会提示你对应信息,修改好了,从新上传,然后审核通过后再次选中你的这个项目信息执行Release,这个时候还会让你输入一些信息,输入就行了 
 ```
 - 如果Staging Repositories没有看到你可以在 Artifact Search 进行搜索你的jar信息,如果有则上传成功
 ```
